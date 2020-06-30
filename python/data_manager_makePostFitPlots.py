@@ -71,6 +71,7 @@ def rebin_total(hist, folder, fin, divideByBinWidth, name_total, lastbin, do_bot
     allbins = catbins #total_hist.GetNbinsX() #GetNonZeroBins(total_hist)# total_hist.GetXaxis().GetNbins() # GetNonZeroBins(total_hist)
     #hist.Sumw2() ## if prefit
     hist.SetMarkerSize(0)
+    hist.SetMarkerColor(16)
     hist.SetFillColorAlpha(12, 0.40)
     hist.SetLineWidth(0)
     hist.SetMinimum(minY)
@@ -80,8 +81,8 @@ def rebin_total(hist, folder, fin, divideByBinWidth, name_total, lastbin, do_bot
         #print ("total content", total_hist.GetBinContent(ii), total_hist.GetBinError(ii))
         bin_width = 1.
         if divideByBinWidth : bin_width = total_hist.GetXaxis().GetBinWidth(ii)
-        hist.SetBinContent(ii + lastbin, total_hist.GetBinContent(ii)/bin_width)
-        hist.SetBinError(  ii + lastbin, total_hist.GetBinError(ii)/bin_width)
+        hist.SetBinContent(ii + lastbin, 0.03 + total_hist.GetBinContent(ii)/bin_width)
+        hist.SetBinError(  ii + lastbin, 0.03 + total_hist.GetBinError(ii)/bin_width)
     if not hist.GetSumw2N() : hist.Sumw2()
     if not do_bottom :
         hist.GetXaxis().SetTitle(labelX)
@@ -102,7 +103,6 @@ def rebin_total(hist, folder, fin, divideByBinWidth, name_total, lastbin, do_bot
 def rebin_hist(hist_rebin_local, fin, folder, name, itemDict, divideByBinWidth, addlegend, lastbin, catbin, original) :
     print folder+"/"+name
     hist = fin[0].Get(folder+"/"+name)
-    #print("signal HH stack inside 1", key, hist_rebin_local.Integral(), fin[0])
     allbins = catbin #hist.GetNbinsX() #GetNonZeroBins(hist)
     try  : hist.Integral()
     except :
@@ -190,7 +190,7 @@ def rebin_data(template, dataTGraph1, folder, fin, fromHavester, lastbin, histto
                     xp2 = ROOT.Double()
                     yp2 = ROOT.Double()
                     dataTGraph2.GetPoint(ii, xp2, yp2)
-                    print(folderRead, "sum data", ii, xp, yp, yp2, yp + yp2)
+                    #print(folderRead, "sum data", ii, xp, yp, yp2, yp + yp2)
                     #dataTGraph.Add(fin[eraa].Get(folderRead + "/data"))
                     dataTGraph.SetPoint(      ii ,  template.GetBinCenter(ii + 1) , (yp + yp2))
                     dataTGraph.SetPointEYlow( ii ,  math.sqrt(dataTGraph.GetErrorYlow(ii)*dataTGraph.GetErrorYlow(ii) + dataTGraph2.GetErrorYlow(ii)*dataTGraph2.GetErrorYlow(ii)))
@@ -303,7 +303,7 @@ def do_hist_total_err(hist_total_err, labelX, total_hist, minBottom, maxBottom, 
     hist_total_err.GetXaxis().SetTitleOffset(1.25)
     hist_total_err.GetYaxis().SetTitleOffset(1.2)
     hist_total_err.GetXaxis().SetTitleSize(0.14)
-    hist_total_err.GetYaxis().SetTitleSize(0.055)
+    hist_total_err.GetYaxis().SetTitleSize(0.075)
     hist_total_err.GetYaxis().SetLabelSize(0.105)
     hist_total_err.GetXaxis().SetLabelSize(0.10)
     hist_total_err.GetYaxis().SetTickLength(0.04)
