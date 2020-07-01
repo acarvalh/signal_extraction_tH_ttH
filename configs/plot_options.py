@@ -27,7 +27,7 @@ def options_plot (analysis, channel, all_procs, leading_minor_H_local, leading_m
         if "mcFakes" in all_procs       : dprocs["mcFakes"]       = {"color" :  12, "fillStype" : 3345, "label" : "Fakes"  , "make border" : True}
         if "mcFlips" in all_procs       : dprocs["mcFlips"]       = {"color" :   1, "fillStype" : 3006, "label" : "Flips", "make border" : True}
         if "Convs" in all_procs : dprocs["Convs"] = {"color" :   5, "fillStype" : 1001, "label" : "Conversions"       , "make border" :  True}
-        if "TT" in all_procs     : dprocs["TT"]           = {"color" : 114, "fillStype" : 1001, "label" : 'TT + jets'   , "make border" : True}
+        if "TT" in all_procs     : dprocs["TT"]           = {"color" : 114, "fillStype" : 1001, "label" : 't#bar{t} + jets'   , "make border" : True}
         if "Rares" in all_procs     : dprocs["Rares"]     = {"color" : 851, "fillStype" : 1001, "label" : "Rares"       , "make border" : True}
         if "Others" in all_procs     : dprocs["Rares"]     = {"color" : 851, "fillStype" : 1001, "label" : "Rares"       , "make border" : True}
         if "EWK" in all_procs       : dprocs["EWK"]       = {"color" : 610, "fillStype" : 1001, "label" : "EWK"         , "make border" : True}
@@ -36,37 +36,31 @@ def options_plot (analysis, channel, all_procs, leading_minor_H_local, leading_m
         if "WZ" in all_procs        : dprocs["WZ"]        = {"color" : 6, "fillStype" : 1001, "label" : "WZ"          , "make border" : True}
         if "TTWW" in all_procs :
             dprocs["TTW"]                                 = {"color" : 823, "fillStype" : 1001, "label" : "none"        , "make border" : False}
-            dprocs["TTWW"]                                = {"color" : 823, "fillStype" : 1001, "label" : "ttW(W)"  , "make border" : True}
+            dprocs["TTWW"]                                = {"color" : 823, "fillStype" : 1001, "label" : "t#bar{t}(W)"  , "make border" : True}
         elif "TTW" in all_procs :
-            dprocs["TTW"]                                 = {"color" : 823, "fillStype" : 1001, "label" : "ttW(W)"        , "make border" : True}
-        if "TTZ" in all_procs       : dprocs["TTZ"]       = {"color" : 822, "fillStype" : 1001, "label" : "ttZ"         , "make border" : True}
+            dprocs["TTW"]                                 = {"color" : 823, "fillStype" : 1001, "label" : "t#bar{t}W(W)"        , "make border" : True}
+        if "TTZ" in all_procs       : dprocs["TTZ"]       = {"color" : 822, "fillStype" : 1001, "label" : "t#bar{t}Z"         , "make border" : True}
         ### signals
         if "HH" in all_procs         : dprocs["HH"]         = {"color" : 4, "fillStype" : 1001, "label" : "none"           , "make border" : False}
         if "VH" in all_procs         : dprocs["VH"]         = {"color" : 4, "fillStype" : 1001, "label" : "VH"           , "make border" : True}
         for hig_proc in ["TTWH", "TTZH", "qqH", "VH", "WH", "ZH", "ggH"] :
             if hig_proc in all_procs   and not leading_minor_H_local == "HH"    :
-                for decay in Hdecays : # list(set(list(Hdecays)) - set(["htt"])) :
-                    #if not "%s_%s" % (hig_proc, decay) in all_procs :
-                    #    continue
-                    #if other_H_proc == 0 :
-                    #    dprocs["%s_%s" % (hig_proc, decay)]       = {"color" : 4, "fillStype" : 1001, "label" : "Other H processes"       , "make border" : False}
-                    #    other_H_proc = 1
+                for decay in Hdecays :
                     if "%s_%s" % (hig_proc, decay) == leading_minor_H_local : #
-                        dprocs[leading_minor_H_local]       = {"color" : 208, "fillStype" : 1001, "label" : "VH + ggH + qqH"      , "make border" : False} # "Other H processes" "tHW + VH + ggH + qqH + HH + ttVH"
+                        dprocs[leading_minor_H_local]       = {"color" : 208, "fillStype" : 1001, "label" : "VH + ggH + q#bar{q}H"      , "make border" : False} # "Other H processes" "tHW + VH + ggH + qqH + HH + ttVH"
                     else :
                         dprocs["%s_%s" % (hig_proc, decay)]       = {"color" : 208, "fillStype" : 1001, "label" : "none"         , "make border" : False}
-                    #dprocs["%s_htt" % hig_proc]       = {"color" : 4, "fillStype" : 1001, "label" : "none"         , "make border" : False}
         if not tH_separated :
             if "tHW" in all_procs :
                 for decay in list(Hdecays) :
                     if "tHW_%s" % decay == leading_minor_tH_local :
-                        dprocs["tHW_%s"]                             = {"color" : 4, "fillStype" : 1001, "label" : "tH"           , "make border" : True}
+                        dprocs["tHW_%s" % decay ]                             = {"color" : 4, "fillStype" : 1001, "label" : "tH"           , "make border" : True}
                     else :
                         dprocs["tHW_%s" % decay]                     = {"color" : 4, "fillStype" : 1001, "label" : "none"        , "make border" : False}
             if "tHq" in all_procs :
                 for decay in list(Hdecays) :
                     if "tHq_%s" % decay == leading_minor_tH_local :
-                        dprocs["tHq_%s"]                             = {"color" : 4, "fillStype" : 1001, "label" : "tH"           , "make border" : True}
+                        dprocs["tHq_%s" % decay]                     = {"color" : 4, "fillStype" : 1001, "label" : "tH"           , "make border" : True}
                     else :
                         dprocs["tHq_%s" % decay]                     = {"color" : 4, "fillStype" : 1001, "label" : "none"        , "make border" : False}
         if "TTH" in all_procs     : dprocs["TH"]           = {"color" : 4, "fillStype" : 1001, "label" : 'TH'   , "make border" : True}
@@ -74,9 +68,9 @@ def options_plot (analysis, channel, all_procs, leading_minor_H_local, leading_m
         if "ttH" in all_procs :
             for decay in list(set(list(Hdecays_long)) - set(["htt"])) :
                 dprocs["ttH_%s" % decay]                 = {"color" :   2, "fillStype" : 1001, "label" : "none"        , "make border" : False}
-            dprocs["ttH_htt"]                                 = {"color" :   2, "fillStype" : 1001, "label" : "ttH"         , "make border" : True}
+            dprocs["ttH_htt"]                                 = {"color" :   2, "fillStype" : 1001, "label" : "t#bar{t}H"         , "make border" : True}
             #dprocs["ttH"]                                 = {"color" :   2, "fillStype" : 1001, "label" : "ttH"         , "make border" : True}
-        if "TTH" in all_procs     : dprocs["TTH"]           = {"color" : 2, "fillStype" : 1001, "label" : 'TTH'   , "make border" : True}
+        if "TTH" in all_procs     : dprocs["TTH"]           = {"color" : 2, "fillStype" : 1001, "label" :  "t#bar{t}H"    , "make border" : True}
         ### HH signals "signal_ggf_nonresonant_hh_bbttSM", "signal_ggf_nonresonant_hh_bbvv_slSM", "signal_ggf_nonresonant_hh_bbvvSM"
         if "signal_ggf_nonresonant_hh_bbttSM" in all_procs         : dprocs["signal_ggf_nonresonant_hh_bbttSM"]         = {"color" : 4, "fillStype" : 3351, "label" : "HH SM bbtt"           , "make border" : True}
         if "signal_ggf_nonresonant_hh_bbvv_slSM" in all_procs      : dprocs["signal_ggf_nonresonant_hh_bbvv_slSM"]   = {"color" : 6, "fillStype" : 3315, "label" : "HH SM bbvv sl"           , "make border" : True}
@@ -86,27 +80,23 @@ def options_plot (analysis, channel, all_procs, leading_minor_H_local, leading_m
             ## remove "fakes_data" from first entry and add as last
             del dprocs["data_fakes"]
             dprocs["data_fakes"]                                 = {"color" :   1, "fillStype" : 3005, "label" : "Fakes"        , "make border" : True}
-        if channel in ["0l_2tau", "1l_1tau", "2los_1tau"] :
+        if channel in ["0l_2tau", "1l_1tau"] :
             #del dprocs["DY"]
             dprocs["DY"]                                  = {"color" : 221, "fillStype" : 1001, "label" : "DY"         , "make border" : True}
             del dprocs[fakes]
             dprocs[fakes]                                 = {"color" :   1, "fillStype" : 3005, "label" : "Fakes"        , "make border" : True}
             del dprocs["TT"]
-            dprocs["TT"]                                  = {"color" : 17, "fillStype" : 1001, "label" : 'TT + jets'   , "make border" : True}
-        if channel in ["1l_1tau", "2los_1tau", "0l_2tau"] :
-            #del dprocs["DY"]
-            dprocs["DY"]                                  = {"color" : 221, "fillStype" : 1001, "label" : "DY"         , "make border" : True}
+            dprocs["TT"]                                  = {"color" : 17, "fillStype" : 1001, "label" : 't#bar{t} + jets'   , "make border" : True}
+        if channel in ["2los_1tau"] :
             del dprocs[fakes]
             dprocs[fakes]                                 = {"color" :   1, "fillStype" : 3005, "label" : "Fakes"        , "make border" : True}
-            del dprocs["TT"]
-            dprocs["TT"]                                  = {"color" : 17, "fillStype" : 1001, "label" : 'TT + jets'   , "make border" : True}
         if channel in ["2l_0tau"] and not leading_minor_H_local =="HH" :
             del dprocs[fakes]
             dprocs[fakes]                                 = {"color" :   1, "fillStype" : 3005, "label" : "Fakes"        , "make border" : True}
             #del dprocs["DY"]
             dprocs["DY"]                                  = {"color" : 221, "fillStype" : 1001, "label" : "DY"         , "make border" : True}
             del dprocs["TT"]
-            dprocs["TT"]                                  = {"color" : 17, "fillStype" : 1001, "label" : 'TT + jets'   , "make border" : True}
+            dprocs["TT"]                                  = {"color" : 17, "fillStype" : 1001, "label" : 't#bar{t} + jets'   , "make border" : True}
         if channel in ["1l_0tau"] and not leading_minor_H_local =="HH" :
             del dprocs[conversions]
             dprocs[conversions]                           = {"color" :   5, "fillStype" : 1001, "label" : "Conv."        , "make border" : True}
@@ -117,7 +107,7 @@ def options_plot (analysis, channel, all_procs, leading_minor_H_local, leading_m
             del dprocs["W"]
             dprocs["W"]                                   = {"color" : 610, "fillStype" : 1001, "label" : 'W + jets'   , "make border" : True}
             del dprocs["TT"]
-            dprocs["TT"]                                  = {"color" : 17, "fillStype" : 1001, "label" : 'TT + jets'   , "make border" : True}
+            dprocs["TT"]                                  = {"color" : 17, "fillStype" : 1001, "label" : 't#bar{t} + jets'   , "make border" : True}
     else : sys.exit("analysis " + analysis + " not implemented")
     return dprocs
 
@@ -187,7 +177,7 @@ def options_plot_ranges (analysis) :
                 "minY" : 0,   "maxY" :  75.,
                 "minYerr": -0.55, "maxYerr" : 0.685,
                 "useLogPlot" : False,
-                "label" : '2l ss + 0#tau_{h}, tHQ node',
+                "label" : '2l ss + 0#tau_{h}, tHq node',
                 "labelX" : "Bin number",
                 "position_cats": 42. ,
                 "list_cats" : ["ttH_2lss_0tau_mm_tHQnode_2018", "ttH_2lss_0tau_em_tHQnode_2018", "ttH_2lss_0tau_ee_tHQnode_2018"],
@@ -264,21 +254,21 @@ def options_plot_ranges (analysis) :
                 "minY" : 0,    "maxY" :  55.,
                 "minYerr":  -0.47,  "maxYerr" : 0.69,
                 "useLogPlot" : False,
-                "label" : '3l + 0#tau_{h}, t#bar{t}H output node',
+                "label" : '3l + 0#tau_{h}, t#bar{t}H node',
                 "labelX" : "Bin number",
-                "position_cats": 30. ,
+                "position_cats": 32.5 ,
                 "list_cats" : ["ttH_3l_0tau_ttH_bl_2018", "ttH_3l_0tau_ttH_bt_2018"],
                 "list_cats_original" : ["ttH_3l_0tau_ttH_bl_2018", "ttH_3l_0tau_ttH_bt_2018"],
                 "cats" : [["bl"], ["bt"]],
-                "catsX" :  [ 1.2, 5.8 ]
+                "catsX" :  [ 1.2, 6.0 ]
                 },
             "3l_0tau_tH" : {
                 "minY" : 0,    "maxY" :  30.,
                 "minYerr":  -0.35,  "maxYerr" : 0.95,
                 "useLogPlot" : False,
-                "label" : '3l + 0#tau_{h}, tH output node',
+                "label" : '3l + 0#tau_{h}, tHq node',
                 "labelX" : "Bin number",
-                "position_cats": 17. ,
+                "position_cats": 18. ,
                 "list_cats" : ["ttH_3l_0tau_tH_bl_2018", "ttH_3l_0tau_tH_bt_2018"],
                 "list_cats_original" : ["ttH_3l_0tau_tH_bl_2018", "ttH_3l_0tau_tH_bt_2018"],
                 "cats" : [["bl"], ["bt"]],
@@ -706,8 +696,8 @@ def list_channels_draw(analysis) :
             },
         "2lss_0tau_ttW" : {
             "bkg_proc_from_data" : [ fakes, "data_flips"],
-            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares", "Convs"],
-            "signal" : [ "ttH", "tHq", "tHW" ], # too low to appear in plot: "ZH", "WH", "ggH", "qqH", "VH", "HH", "TTWH", "TTZH"
+            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ",  "WZ", "Rares"], # "ZZ", , "Convs"
+            "signal" : [ "ttH", "tHW", "tHq", ], # too low to appear in plot:  "WH", "ZH",  "ggH", "qqH", "VH", "HH", "TTWH", "TTZH"
             "leading_minor_H" : "WH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHq_hww" ## The legend for the mino H proc will only appear if this process is in the card
             },
@@ -734,8 +724,8 @@ def list_channels_draw(analysis) :
             },
         "2lss_1tau" : {
             "bkg_proc_from_data" : [fakes, "data_flips"],
-            "bkg_procs_from_MC"  : ["TTW",  "TTZ", "WZ", "ZZ", "Rares", conversions, "TT"],
-            "signal" : ["ttH", "tHq", "tHW", "WH", "ZH", "HH", "ggH", "qqH", "TTWH", "TTZH"],
+            "bkg_procs_from_MC"  : ["TTW",  "TTZ", "WZ", "ZZ", "Rares"], # , conversions, "TT"
+            "signal" : ["ttH", "tHq", "tHW", ], # "WH", "ZH", "HH", "ggH", "qqH", "TTWH", "TTZH"
             "leading_minor_H" : "ZH_hww", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHq_htt" ## The legend for the mino H proc will only appear if this process is in the card
             },
@@ -754,15 +744,15 @@ def list_channels_draw(analysis) :
             "leading_minor_tH" : "tHq_hww" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "3lctrl"   : {
-            "bkg_proc_from_data" : [fakes, flips ],
+            "bkg_proc_from_data" : [fakes],
             "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares", conversions],
-            "signal" : [ "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"], # "ttH", "tHW",
+            "signal" : [ ], # "ttH", "tHW", "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHW_htt" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "4lctrl"   : {
-            "bkg_proc_from_data" : ["data_fakes", flips ],
-            "bkg_procs_from_MC"  : ["TTW", "TTZ", "WZ", "ZZ", "Rares"], # , conversions
+            "bkg_proc_from_data" : [ ], # "data_fakes", flips
+            "bkg_procs_from_MC"  : ["TTZ", "ZZ", "Rares"], # "TTW",, conversions
             "signal" : [], # "ttH",
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHW_htt" ## The legend for the mino H proc will only appear if this process is in the card
@@ -775,30 +765,30 @@ def list_channels_draw(analysis) :
             "leading_minor_tH" : "tHq_hww" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "3l_0tau_ttH"   : {
-            "bkg_proc_from_data" : [fakes,  flips ],
-            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares", conversions, "TT"],
-            "signal" : ["ttH", "tHq", "tHW"], # , "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"
+            "bkg_proc_from_data" : [fakes],
+            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares"], # , conversions, "TT"
+            "signal" : ["ttH", "tHq", "tHW", ], # "HH", "WH", "ZH", "ggH", "qqH", "TTWH", "TTZH"
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHq_hww" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "3l_0tau_tH"   : {
-            "bkg_proc_from_data" : [fakes,  flips ],
-            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares", conversions, "TT"],
-            "signal" : ["ttH", "tHq", "tHW", "TTWH", "TTZH"], #  "WH", "ZH", "ggH", "qqH", "HH",
-            "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
+            "bkg_proc_from_data" : [fakes],
+            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares"], # , "TT" , conversions
+            "signal" : ["ttH", "tHq", "tHW", "TTWH", "TTZH", "WH", "ZH", "ggH", "qqH", ], #  "HH",
+            "leading_minor_H" : "ZH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHq_hww" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "3l_0tau_rest"   : {
-            "bkg_proc_from_data" : ["data_fakes" ], # ,  flips
-            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ",  "WZ", "ZZ", "Rares", conversions, "TT"],
-            "signal" : ["ttH", "tHq", "tHW", "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"],
+            "bkg_proc_from_data" : ["data_fakes" ],
+            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ",  "WZ", "ZZ", "Rares"], # , "TT" , conversions
+            "signal" : ["ttH", "tHq", "tHW", ], # "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHq_hww" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "1l_2tau"   : {
             "bkg_proc_from_data" : [ "data_fakes"      ],
-            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares", conversions, "TT"],
-            "signal" : ["ttH", "tHq", "tHW"], # Too small to matter: "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"
+            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares"], # , conversions, "TT"
+            "signal" : ["ttH"], # Too small to matter: , "tHq", "tHW", "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHW_htt" ## The legend for the mino H proc will only appear if this process is in the card
             },
@@ -811,43 +801,43 @@ def list_channels_draw(analysis) :
             },
         "2l_2tau"   : {
             "bkg_proc_from_data" : [fakes       ],
-            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares", conversions, "TT"],
-            "signal" : ["ttH", "tHq", "tHW", "WH", "ZH", "qqH", "ggH", "HH", "TTWH", "TTZH"],
+            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "ZZ", "Rares"], # , conversions, "TT" "WZ",
+            "signal" : ["ttH", "tHq", "tHW",], #   "WH", "ZH", "qqH", "ggH", "HH", "TTWH", "TTZH"
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHW_htt" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "3l_1tau"   : {
             "bkg_proc_from_data" : [fakes       ],
-            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "TT", "Rares", conversions],
-            "signal" : ["ttH", "tHq", "tHW", "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"],
+            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "Rares"], # , conversions "TT",
+            "signal" : ["ttH", "tHq", "tHW",], #  "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHW_htt" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "2los_1tau" : {
-            "bkg_proc_from_data" : [fakes, flips],
-            "bkg_procs_from_MC"  : ["TTW",  "TTZ", "WZ", "ZZ", "Rares", conversions, "TT"],
+            "bkg_proc_from_data" : [fakes],
+            "bkg_procs_from_MC"  : ["TTW",  "TTZ", "WZ", "ZZ", "Rares"], # , conversions, "TT"
             "signal" : ["ttH", "tHq", "tHW"], # Too small to matter: "WH", "ZH", "ggH", "qqH", "HH", "TTWH", "TTZH"
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHW_htt" ## The legend for the mino H proc will only appear if this process is in the card
         },
         "0l_2tau"   : {
             "bkg_proc_from_data" : [fakes       ],
-            "bkg_procs_from_MC"  : [ "TTZ", "WZ", "ZZ", "DY", "Rares", "TT", "TTWW" ,"TTW",],
+            "bkg_procs_from_MC"  : [ "TTZ", "WZ", "ZZ", "DY", "Rares", "TT"], # , "TTWW" ,"TTW",
             "signal" : ["ttH", "tHq", "tHW",  "ggH", "qqH", "HH", "TTWH", "TTZH"    "WH",  "ZH",],
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
-            "leading_minor_tH" : "tHW_htt" ## The legend for the mino H proc will only appear if this process is in the card
+            "leading_minor_tH" : "tHq_htt" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "1l_1tau"   : {
             "bkg_proc_from_data" : [fakes       ],
-            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "DY", "Rares", "TT", conversions, "EWK"],
-            "signal" : ["ttH", "tHq", "tHW", "WH", "ZH", "ggH", "qqH", "WH", "ZH", "HH", "TTWH", "TTZH"],
+            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "DY", "Rares", "TT"],
+            "signal" : ["ttH", "tHq", "tHW", ], # "WH", "ZH", "ggH", "qqH", "WH", "ZH", "HH", "TTWH", "TTZH"
             "leading_minor_H" :  "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHW_htt" ## The legend for the mino H proc will only appear if this process is in the card
             },
         "4l_0tau"   : {
-            "bkg_proc_from_data" : [fakes       ],
-            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ", "WZ", "ZZ", "DY", "Rares", "TT", conversions, "EWK"],
-            "signal" : ["ttH", "tHq", "tHW", "WH", "ZH", "ggH", "qqH", "VH", "HH", "TTWH", "TTZH"], #
+            "bkg_proc_from_data" : [  ],
+            "bkg_procs_from_MC"  : ["TTW", "TTWW", "TTZ",  "ZZ", "Rares"], # "WZ", "DY",
+            "signal" : ["ttH", "tHq", "tHW",], #  "WH", "ZH", "ggH", "qqH", "VH", "HH", "TTWH", "TTZH"
             "leading_minor_H" : "ggH_htt", ## The legend for the mino H proc will only appear if this process is in the card
             "leading_minor_tH" : "tHW_hww" ## The legend for the mino H proc will only appear if this process is in the card
             },
