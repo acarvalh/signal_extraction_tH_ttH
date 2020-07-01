@@ -200,10 +200,12 @@ procs  = list_channels_draw("ttH")[category]
 print procs
 leading_minor_H = list_channels_draw("ttH")[category]["leading_minor_H"]
 print ("leading_minor_H", leading_minor_H)
+leading_minor_tH = list_channels_draw("ttH")[category]["leading_minor_tH"]
+print ("leading_minor_tH", leading_minor_tH)
 if not HH :
-    dprocs = options_plot ("ttH", category, procs["bkg_proc_from_data"] + procs['bkg_procs_from_MC'] + procs["signal"], leading_minor_H, False) # tH_separated
+    dprocs = options_plot ("ttH", category, procs["bkg_proc_from_data"] + procs['bkg_procs_from_MC'] + procs["signal"], leading_minor_H, leading_minor_tH, False) # tH_separated
 else :
-    dprocs = options_plot ("ttH", category, procs["bkg_proc_from_data"] + procs['bkg_procs_from_MC'], leading_minor_H, False) # tH_separated
+    dprocs = options_plot ("ttH", category, procs["bkg_proc_from_data"] + procs['bkg_procs_from_MC'], leading_minor_H, leading_minor_tH, False) # tH_separated
     dprocsHH = options_plot ("ttH", category,  procs["signal_HH"], "HH", tH_separated)
 
 label_head = options_plot_ranges("ttH")[typeCat]["label"]
@@ -285,7 +287,7 @@ if not options.original == "none" :
     datahist = fileorriginal.Get(readFrom + "data_obs")
 else :
     if not binToRead == "none" :
-        if len(list_cats) == 1 :
+        if len(list_cats) <= 1 :
             catcats = [binToRead] #[folder]
         else :
             if not options.era == 0 :
@@ -439,13 +441,30 @@ pos_linebinW_Y = []
 y0 = options_plot_ranges("ttH")[typeCat]["position_cats"]
 if options.era == 0 :
     y0 = 2 * y0
+
+## ugly hand fix to have the correct legend for 2lss_0tau in the ttH analysis
+dumbhist = template.Clone()
+if "2lss_0tau" in category :
+    dumbhist.SetMarkerSize(0)
+    dumbhist.SetFillColor(1)
+    dumbhist.SetFillStyle(3006)
+    dumbhist.SetLineColor(1)
+if "3lctrl" in category :
+    dumbhist.SetMarkerSize(0)
+    dumbhist.SetFillColor(5)
+    dumbhist.SetFillStyle(1001)
+    dumbhist.SetLineColor(1)
+
 for kk, key in  enumerate(dprocs.keys()) :
     hist_rebin = template.Clone()
     lastbin = 0
     addlegend = True
     print("Stacking ", key)
     for cc, catcat in enumerate(catcats) :
-        if not cc == 0 : addlegend = False
+        if not cc == 0 :
+            addlegend = False
+        if kk == 0 :
+            firstHisto = ROOT.TH1F()
         if not options.fromHavester :
             readFrom = folder + "/" + catcat
         else :
@@ -461,8 +480,16 @@ for kk, key in  enumerate(dprocs.keys()) :
             addlegend,
             lastbin,
             nbinscatlist[cc],
-            options.original
+            options.original,
+            firstHisto
             )
+        #if dprocs[key]["label"] == "Fakes" and addlegend :
+        #    #if "2lss_0tau" in category :
+        #    #    #{"color" :   1, "fillStype" : 3006, "label" : "Flips", "make border" : True}
+        #    #    legend1.AddEntry(dumbhist, "Flips", "f")
+        #    #if "3lctrl" in category :
+        #    #    #{"color" :   1, "fillStype" : 3006, "label" : "Flips", "make border" : True}
+        #    #    legend1.AddEntry(dumbhist, "Conversions", "f")
         print (info_hist["lastbin"] , lastbin, nbinscatlist[cc] )
         lastbin += info_hist["lastbin"]
         if kk == 0 :
