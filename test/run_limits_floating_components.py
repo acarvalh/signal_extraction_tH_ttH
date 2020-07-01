@@ -149,7 +149,9 @@ if not HH :
 
 float_sig_rates = ""
 if not HH :
-    if options.ttH_tH and not doCategoriesWS:
+    if doCategoriesWS_decay :
+        float_sig_rates = " --PO 'map=.*/ttH_hww.*:r_ttH_hww[1,-1,3]' --PO 'map=.*/ttH_hzz.*:r_ttH_hzz[1,-40,40]' --PO 'map=.*/ttH_htt.*:r_ttH_htt[1,-1,3]'  --PO 'map=.*/tHW.*:r_tH[1,-40,40]' --PO 'map=.*/tHq.*:r_tH[1,-40,40]'"
+    elif options.ttH_tH and not doCategoriesWS:
         float_sig_rates = " --PO 'map=.*/ttH.*:r_SM[1,-1,3]' --PO 'map=.*/tHW.*:r_SM[1,-40,40]' --PO 'map=.*/tHq.*:r_SM[1,-40,40]'"
     else :
         if not CR and not doCategoriesWS:
@@ -819,6 +821,56 @@ if doCategoriesMu_tH_likScan :
         else :
             runCombineCmd(cmd, folderCat, saveout="%s_rate_%s_%s_grid.log" % (cardToRead, rate.replace("ttH", "tH"), namePlot))
 
+if doCategoriesWS_decay :
+    runCombineCmd("mkdir %s"  % (folderCat))
+    #floating_by_decay =  = ""
+    #for sigRate in sigRates :
+    #    floating_by_cat += " --PO 'map=.*%s.*/tH.*:r_%s[1,-30,30]'" % (sigRate.replace("ttH", "tH"), sigRate.replace("ttH", "tH"))
+    cmd = "text2workspace.py "
+    cmd += " %s/../%s.txt" % (FolderOut, cardToRead)
+    cmd += " -o %s_Catpoi_final_decay.root" % cardToRead
+    cmd += " -P HiggsAnalysis.CombinedLimit.PhysicsModel:multiSignalModel --PO verbose"
+    cmd += " %s" % floating_ttV
+    cmd += " %s" % float_sig_rates
+    #cmd += " %s" % floating_by_cat
+    runCombineCmd(cmd, folderCat)
+
+if doCategoriesMu_decay :
+    runCombineCmd("mkdir %s"  % (folderCat))
+    ## test foldercat cmd += " -o %s_Catpoi_final_decay.root" % cardToRead
+    parameters = ""
+    if options.ttW : parameters += "r_ttW=1"
+    if options.ttZ :
+        if options.ttW : parameters += ","
+        parameters += "r_ttZ=1,"
+    #parameters += "r_ttH=1"
+    #if options.tH :
+    #    if options.ttW or options.ttZ : parameters += ","
+    #    parameters += "r_tH=1"
+    sigRates = [ "ttH_hzz", "ttH_htt", "ttH_hww", "tH"]
+    for rate in sigRates :
+        parameters = parameters + ",r_"+rate+"=1"
+    print ("Will fit the parameters "+parameters)
+    for rate in sigRates :
+        print (rate)
+        cmd = "combineTool.py -M MultiDimFit"
+        cmd += " %s_Catpoi_final_decay.root" % cardToRead
+        #cmd += " %s" % blindStatement
+        cmd += " --setParameters %s" % parameters
+        cmd += " --algo singles --cl=0.68" # remember why it was --algo none
+        cmd += " -P r_%s" % rate
+        cmd += " -n rate_%s_%s" % (rate, namePlot)
+        cmd += " --floatOtherPOI=1 --keepFailures " #  -S 0
+        #cmd += " --freezeParameters r_ttH "
+        cmd += " --robustFit 1"
+        cmd += "  --cminDefaultMinimizerStrategy 0 " # --robustFit  --X-rtd MINIMIZER_analytic
+        if sendToCondor :
+            cmd += " %s ttH_%s_%s" % (ToSubmit.replace("+MaxRuntime = 1800", "+MaxRuntime = 900"), rate,  namePlot) # .replace("+MaxRuntime = 1800", "+MaxRuntime = 60")
+            runCombineCmd(cmd, folderCat)
+        else :
+            runCombineCmd(cmd, folderCat, saveout="%s_rate_%s_%s.log" % (cardToRead, rate.replace("ttH", "tH"), namePlot))
+
+
 if doCategoriesLimits :
     runCombineCmd("mkdir %s"  % (folderCat))
     parameters = ""
@@ -931,11 +983,11 @@ if preparePlotHavester or preparePlotCombine :
         cmd += " --original %s/../%s.root"        % (FolderOut, cardToRead)
     cmd += " --era %s" % str(eraDraw)
     cmd += " --nameOut %s" % cardToRead.replace(str(era), str(eraDraw))
-    cmd += " --do_bottom "
+    #cmd += " --do_bottom "
     cmd += " --channel %s" % channel
     if HH :
         cmd += " --HH --binToRead HH_1l_0tau --binToReadOriginal  HH_1l_0tau "
-        cmd += "--nameLabel %s_%s_%s --labelX %s_%s" % (cardToRead.split("_")[2], cardToRead.split("_")[3], cardToRead.split("_")[6], cardToRead.split("_")[4], cardToRead.split("_")[5])
+        cmd += "--nameLabel %s_%s_%s --labelX %s" % (cardToRead.split("_")[2], cardToRead.split("_")[3], cardToRead.split("_")[6], namePlot)
     if not blinded         :
         cmd += " --unblind  "
     if drawPlot and not doPostFit :
