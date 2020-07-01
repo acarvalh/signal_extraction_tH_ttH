@@ -206,7 +206,7 @@ if not HH :
     dprocs = options_plot ("ttH", category, procs["bkg_proc_from_data"] + procs['bkg_procs_from_MC'] + procs["signal"], leading_minor_H, leading_minor_tH, False) # tH_separated
 else :
     dprocs = options_plot ("ttH", category, procs["bkg_proc_from_data"] + procs['bkg_procs_from_MC'], leading_minor_H, leading_minor_tH, False) # tH_separated
-    dprocsHH = options_plot ("ttH", category,  procs["signal_HH"], "HH", tH_separated)
+    dprocsHH = options_plot ("ttH", category,  procs["signal_HH"], "HH", tH_separated, leading_minor_tH)
 
 label_head = options_plot_ranges("ttH")[typeCat]["label"]
 print (options_plot_ranges("ttH")[typeCat])
@@ -543,8 +543,9 @@ if HH :
             fin,
             divideByBinWidth,
             #"signal_ggf_nonresonant_hh_bbvvSM",
-            "signal_ggf_nonresonant_hh_bbvv_slkl_1p00",
+            #"signal_ggf_nonresonant_hh_bbvv_slkl_1p00",
             #"signal_ggf_spin0_900_hh_bbvv_sl",
+            "signal_ggf_spin0_900_hh_bbvv_sl",
             lastbin,
             do_bottom,
             labelX,
@@ -577,8 +578,9 @@ if HH :
             fin,
             divideByBinWidth,
             #"signal_ggf_nonresonant_hh_bbttSM",
-            "signal_ggf_nonresonant_hh_bbttkl_1p00",
+            #"signal_ggf_nonresonant_hh_bbttkl_1p00",
             #"signal_ggf_spin0_900_hh_bbtt",
+            "signal_ggf_spin0_900_hh_bbtt",
             lastbin,
             do_bottom,
             labelX,
@@ -609,8 +611,9 @@ if HH :
             fin,
             divideByBinWidth,
             #"signal_ggf_nonresonant_hh_bbttSM",
-            "signal_ggf_nonresonant_hh_bbvvkl_1p00",
+            #"signal_ggf_nonresonant_hh_bbvvkl_1p00",
             #"signal_ggf_spin0_900_hh_bbvv",
+            "signal_ggf_spin0_900_hh_bbvv",
             lastbin,
             do_bottom,
             labelX,
