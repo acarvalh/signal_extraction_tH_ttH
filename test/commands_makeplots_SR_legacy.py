@@ -36,8 +36,15 @@ parser.add_option(
     "--do_channel",
     type="string",
     dest="do_channel",
-    help="FDo only this channel",
+    help="Do only this channel",
     default="none"
+    )
+parser.add_option(
+    "--do_era",
+    type="int",
+    dest="do_era",
+    help="Do only this era",
+    default=-100
     )
 parser.add_option(
     "--unblided",
@@ -86,13 +93,14 @@ unblided     = options.unblided
 fromHavester = options.fromHavester
 doITC        = options.doITC
 do_channel   = options.do_channel
+do_era       = options.do_era
 fitDiagnosis_ITC = options.fitDiagnosis_ITC
 
 if odir == "none" :
     odir = cards_dir + "/plots"
 run_cmd("mkdir %s"  % (odir))
 
-eras = [  2018] # 0 , 2016, 2017,
+eras = [  0, 2016, 2017, 2018 ]
 
 cards_to_do = {
         "ttH_0l_2tau_ERA"         : {
@@ -156,7 +164,6 @@ cards_to_do = {
             "fitDiagnosis_ITC"  : "none"
         },
         "ttH_cr_3l_ERA_cr"   : {
-            #"cards_to_merge"      : ["ttH_cr_3l_ERA_eee_cr", "ttH_cr_3l_ERA_eem_cr", "ttH_cr_3l_ERA_emm_cr", "ttH_cr_3l_ERA_mmm_cr"],
             "channel"             : "3lctrl",
             "original"            : "none" ,
             "IHEP"                : False ,
@@ -165,15 +172,13 @@ cards_to_do = {
             "fitDiagnosis_ITC"    : "none"
         },
         "ttH_cr_4l_ERA"   : {
-            #"cards_to_merge"      : ["ttH_cr_3l_ERA_eee_cr", "ttH_cr_3l_ERA_eem_cr", "ttH_cr_3l_ERA_emm_cr", "ttH_cr_3l_ERA_mmm_cr"],
             "channel"             : "4lctrl",
             "original"            : "none" ,
             "IHEP"                : False ,
-            "binToRead"           : "none",
+            "binToRead"           : "ttH_cr_4l_2018",
             "nameLabel"           : "none"
         },
         "ttH_2lss_1tau_ERA"      : {
-            #"cards_to_merge"      : ["ttH_2lss_1tau_rest_ERA", "ttH_2lss_1tau_tH_ERA", "ttH_2lss_1tau_ttH_ERA"],
             "channel"             : "2lss_1tau",
             "original"            : "none" ,
             "IHEP"                : False ,
@@ -181,7 +186,6 @@ cards_to_do = {
             "nameLabel"           : "none"
         },
         "ttH_2lss_0tau_rest_ERA" : {
-            #"cards_to_merge"      : ["ttH_2lss_0tau_ee_Restnode_ERA", "ttH_2lss_0tau_em_Restnode_ERA", "ttH_2lss_0tau_mm_Restnode_ERA" ],
             "channel"             : "2lss_0tau_rest",
             "original"            : "none" ,
             "IHEP"                : False ,
@@ -189,7 +193,6 @@ cards_to_do = {
             "nameLabel"           : "none"
         },
         "ttH_2lss_0tau_tH_ERA"   : {
-            #"cards_to_merge"      : ["ttH_2lss_0tau_ee_tHQnode_ERA", "ttH_2lss_0tau_em_tHQnode_ERA", "ttH_2lss_0tau_mm_tHQnode_ERA"],
             "channel"             : "2lss_0tau_tH",
             "original"            : "none" ,
             "IHEP"                : False ,
@@ -197,7 +200,6 @@ cards_to_do = {
             "nameLabel"           : "none"
         },
         "ttH_2lss_0tau_ttH_ERA"  : {
-            #"cards_to_merge"      : ["ttH_2lss_0tau_ee_ttHnode_ERA", "ttH_2lss_0tau_em_ttHnode_ERA", "ttH_2lss_0tau_mm_ttHnode_ERA"],
             "channel"             : "2lss_0tau_ttH",
             "original"            : "none" ,
             "IHEP"                : False ,
@@ -205,7 +207,6 @@ cards_to_do = {
             "nameLabel"           : "none"
         },
         "ttH_2lss_0tau_ttW_ERA"  : {
-            #"cards_to_merge"      : ["ttH_2lss_0tau_ee_ttWnode_ERA", "ttH_2lss_0tau_em_ttWnode_ERA", "ttH_2lss_0tau_mm_ttWnode_ERA" ],
             "channel"             : "2lss_0tau_ttW",
             "original"            : "none" ,
             "IHEP"                : False ,
@@ -213,7 +214,6 @@ cards_to_do = {
             "nameLabel"           : "none"
         },
         "ttH_3l_0tau_rest_ERA"   : {
-            #"cards_to_merge"      : ["ttH_3l_0tau_rest_eee_ERA", "ttH_3l_0tau_rest_eem_bl_ERA", "ttH_3l_0tau_rest_eem_bt_ERA", "ttH_3l_0tau_rest_emm_bl_ERA", "ttH_3l_0tau_rest_emm_bt_ERA", "ttH_3l_0tau_rest_mmm_bl_ERA", "ttH_3l_0tau_rest_mmm_bt_ERA"],
             "channel"             : "3l_0tau_rest",
             "original"            : "none" ,
             "IHEP"                : False ,
@@ -260,6 +260,8 @@ for era in eras :
         if doITC and not ( "3l_0tau" in key or "2lss_0tau" in key or "2lss_1tau" in key) :
             continue
         if not do_channel == "none" and not do_channel in key :
+            continue
+        if not do_era == -100 and not do_era == era :
             continue
         print (key, era)
         eraDraw = str(era)
