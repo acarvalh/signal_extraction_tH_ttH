@@ -64,7 +64,7 @@ def rebin_total(hist, folder, fin, divideByBinWidth, name_total, lastbin, do_bot
         for eraa in [1,2] :
             if eraa == 1 : folderRead = folder.replace("2018", "2017")
             if eraa == 2 : folderRead = folder.replace("2018", "2016")
-            #print ("reading ", eraa, folderRead + "/" + name_total)
+            print ("reading ", eraa, folderRead + "/" + name_total)
             print(folderRead + "/" + name_total)
             total_hist.Add(fin[eraa].Get(folderRead + "/" + name_total))
     print (folder + "/" + name_total)
@@ -100,18 +100,40 @@ def rebin_total(hist, folder, fin, divideByBinWidth, name_total, lastbin, do_bot
     hist.GetYaxis().SetLabelSize(0.050)
     return allbins
 
-def rebin_hist(hist_rebin_local, fin, folder, name, itemDict, divideByBinWidth, addlegend, lastbin, catbin, original) :
+def rebin_hist(hist_rebin_local, fin, folder, name, itemDict, divideByBinWidth, addlegend, lastbin, catbin, original, firstHisto) :
     print folder+"/"+name
     hist = fin[0].Get(folder+"/"+name)
     allbins = catbin #hist.GetNbinsX() #GetNonZeroBins(hist)
-    try  : hist.Integral()
+    try  :
+        hist.Integral()
     except :
-        print ("Doesn't exist " + folder+"/"+name)
-        return {
-            "lastbin" : allbins,
-            "binEdge" : lastbin - 0.5 , # if lastbin > 0 else 0
-            "labelPos" : 0 if not original == "none" else float(allbins/2)
-            }
+        print ("Doesn't exist " + folder+"/"+name, "in 2018")
+        if len(fin) > 1 :
+            hist = firstHisto.Clone()
+            ## find the histogram in any of the three eras file (it shall be an smarter way to write)
+            """hist = fin[1].Get(folder.replace("2018", "2017")+"/"+name)
+            try  : hist.Integral()
+            except :
+                print ("Doesn't exist " + folder.replace("2018", "2017")+"/"+name, "in 2017")
+                if len(fin) > 2 :
+                    hist = fin[2].Get(folder.replace("2018", "2016")+"/"+name)
+                    try  : hist.Integral()
+                    except :
+                        print ("Doesn't exist " + folder.replace("2018", "2016")+"/"+name, "in 2016")
+                        hist = firstHisto.Clone()
+                    hist = firstHisto.Clone()"""
+        else :
+            print ("Doesn't exist " + folder+"/"+name)
+            return {
+                "lastbin" : allbins,
+                "binEdge" : lastbin - 0.5 , # if lastbin > 0 else 0
+                "labelPos" : 0 if not original == "none" else float(allbins/2)
+                }
+    if not firstHisto.Integral() > 0 :
+        firstHisto = hist.Clone()
+        for ii in xrange(1, firstHisto.GetNbinsX() + 1) :
+            firstHisto.SetBinError(  ii, 0.001)
+            firstHisto.SetBinContent(ii, 0.001)
     if len(fin) == 3 :
         for eraa in [1,2] :
             if eraa == 1 : folderRead = folder.replace("2018", "2017")

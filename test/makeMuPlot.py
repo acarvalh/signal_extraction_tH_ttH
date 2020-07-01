@@ -26,6 +26,13 @@ parser.add_option(
     default=False
     )
 parser.add_option(
+    "--is_decay",
+    action="store_true",
+    dest="is_decay",
+    help="self-explaining",
+    default=False
+    )
+parser.add_option(
     "--era", type="int",
     dest="era",
     help="To appear on the name of the file with the final plot. If era == 0 it assumes you gave the path for the 2018 era and it will use the same naming convention to look for the 2017/2016.",
@@ -47,26 +54,35 @@ input_folder = options.input_folder
 
 era = options.era
 is_tH = options.is_tH
+is_decay = options.is_decay
 draw_stats_only = options.draw_stats_only
 
 process = "ttH"
 if options.is_tH :
     process = "tH"
+if options.is_decay :
+    process = "ttH"
 
 dprocs = OrderedDict()
 #dprocs["ttW"]           = [[], 12.25, "ttW"]
 #dprocs["ttZ"]           = [[], 10.25, "ttZ"]
-dprocs["%s_2lss_0tau" % process]    = [[], 14.25, "2lss + 0#tau_{h}" ]
-dprocs["%s_3l_0tau" % process]    = [[], 12.75, "3l + 0#tau_{h}"]
-dprocs["%s_2lss_1tau" % process]  = [[], 11.25, "2lss + 1#tau_{h}"]
-if not options.is_tH :
-    dprocs["%s_1l_2tau" % process]    = [[], 9.75, "1l + 2#tau_{h}"]
-    dprocs["%s_2los_1tau" % process]    = [[], 8.25, "2los + 1#tau_{h}"]
-    dprocs["%s_3l_1tau" % process]  = [[], 6.75, "3l + 1#tau_{h}"]
-    dprocs["%s_2l_2tau" % process]    = [[], 5.25, "2l + 2#tau_{h}"]
-    dprocs["%s_4l" % process]    = [[], 3.75, "4l + 0#tau_{h}"]
-    dprocs["%s_0l_2tau" % process]    = [[], 2.25,  "0l + 2#tau_{h}"]
-    dprocs["%s_1l_1tau" % process]         = [[], 0.75, "1l + 1#tau_{h}"]
+if options.is_decay :
+    dprocs["ttH_hww"]         = [[], 14.25, "t#bar{t}H #to WW" ]
+    dprocs["ttH_htt"]         = [[], 13.75, "t#bar{t}H #to #tau#tau"]
+    dprocs["ttH_hzz"]         = [[], 13.25, "t#bar{t}H #to ZZ"]
+    dprocs["tH_full"]         = [[], 12.75, "tHq + tHW" ]
+else :
+    dprocs["%s_2lss_0tau" % process]    = [[], 14.25, "2lss + 0#tau_{h}" ]
+    dprocs["%s_3l_0tau" % process]    = [[], 12.75, "3l + 0#tau_{h}"]
+    dprocs["%s_2lss_1tau" % process]  = [[], 11.25, "2lss + 1#tau_{h}"]
+    if not options.is_tH :
+        dprocs["%s_1l_2tau" % process]    = [[], 9.75, "1l + 2#tau_{h}"]
+        dprocs["%s_2los_1tau" % process]    = [[], 8.25, "2los + 1#tau_{h}"]
+        dprocs["%s_3l_1tau" % process]  = [[], 6.75, "3l + 1#tau_{h}"]
+        dprocs["%s_2l_2tau" % process]    = [[], 5.25, "2l + 2#tau_{h}"]
+        dprocs["%s_4l" % process]    = [[], 3.75, "4l + 0#tau_{h}"]
+        dprocs["%s_0l_2tau" % process]    = [[], 2.25,  "0l + 2#tau_{h}"]
+        dprocs["%s_1l_1tau" % process]         = [[], 0.75, "1l + 1#tau_{h}"]
 
 ymax = 18.0 # 12.
 ymin = 0.
@@ -75,6 +91,11 @@ if options.is_tH :
     ymin = 10.25
     ymax = 16. # 12.
     ylinemax = 15. # 10.0
+elif is_decay :
+    ymin     = 11.25
+    ymax     = 16.25
+    ylinemax = 15.5
+
 
 for key in dprocs.keys() :
     my_file_pattern =  os.path.join(input_folder, "*rate_%s*test.log" % (key)) #"%s/ttH_%s_rate.txt" % (input_folder, key)
@@ -138,8 +159,8 @@ with open(my_file, 'r') as in_file :
 print combined
 ### read combined
 if draw_stats_only :
-    my_file = "%s/../combo_ttHmultilep_%s_rate_asimov_%s.log" % (input_folder, erastring, process)
-    #my_file = "%s/../combo_ttHmultilep_%s_rate_%s_stats_only.log" % (input_folder, erastring, process )
+    #my_file = "%s/../combo_ttHmultilep_%s_rate_asimov_%s.log" % (input_folder, erastring, process)
+    my_file = "%s/../combo_ttHmultilep_rate_%s_stats_only.log" % (input_folder, process )
     combined_stas_only = []
     print "Combined stat only: "
     count = 0
@@ -155,8 +176,8 @@ if draw_stats_only :
                         #print float(li2)
                         count += 1
                         add = 0
-                        if count == 1 : add = 0.01
-                        if count == 2 : add = -0.01
+                        #if count == 1 : add = 0.01
+                        #if count == 2 : add = -0.01
                         combined_stas_only = combined_stas_only + [float(li2) + add]
                     continue
                 print li
@@ -169,6 +190,9 @@ y_header = 1.5
 if is_tH :
     y_header = 1
     y_comb = (ymax - ymin)/2
+elif is_decay :
+    y_header = 7.
+    y_comb = 3.
 
 mu_comb_m1s = abs(combined[1])
 mu_comb_p1s = combined[2]
@@ -233,10 +257,16 @@ xmax = 10.0 #5.0
 xsumComb = -5.0 #-2.0
 xcomb = 0.5
 if is_tH :
-    xmin = -28. #-12. #-100.0 #-2.8
-    xmax = 36. #100.0
+    xmin = -28.
+    xmax = 36.
     xcomb = 1
-    xsumComb = -18.5 #-10.5 #-50.0
+    xsumComb = -18.5
+elif is_decay :
+    xmin = -1.
+    xmax = 36.
+    xcomb = 1
+    xsumComb = -16.5
+
 
 mg.GetXaxis().SetLimits(xmin, xmax)
 mg.GetYaxis().SetRangeUser(ymin, ymax)
@@ -259,19 +289,22 @@ link.SetLineWidth(2)
 link.SetLineColor(1)
 link.Draw()
 
-luminosity=137.2
+luminosity=137
 print ("era", era)
 if era == 2016 : luminosity = 35.92
 if era == 2017 : luminosity = 41.53
 if era == 2018 : luminosity = 59.74
-if era == 0    : luminosity = 137.2
+if era == 0    : luminosity = 137
 tex = TLatex()
 tex.SetTextSize(0.045)
 tex.SetTextFont(61)
 tex.DrawLatexNDC(0.26, 0.91, "CMS")
 tex.SetTextSize(0.035)
 tex.SetTextFont(42)
-tex.DrawLatexNDC(0.66, 0.91, "%.1f fb^{-1} (13 TeV)" % (luminosity))
+if era == 0    :
+    tex.DrawLatexNDC(0.66, 0.91, "%.0f fb^{-1} (13 TeV)" % (luminosity))
+else :
+    tex.DrawLatexNDC(0.66, 0.91, "%.1f fb^{-1} (13 TeV)" % (luminosity))
 tex.SetTextSize(0.042)
 tex.SetTextFont(52)
 tex.DrawLatexNDC(0.36,0.91,"Preliminary")
@@ -287,10 +320,18 @@ if is_tH :
     xtext = 18
     ysumtext = -0.01
     ycomb = 15.5 # 11.
+if is_decay :
+    xtext = 15
+    ysumtext = -0.01
+    ycomb = 15.75 # 11.
+
 for kk, key in enumerate(dprocs.keys()) :
     tex2.DrawLatex(-xtext+xmin, dprocs[key][1] + ysumtext, dprocs[key][2])
     #tex3.DrawLatex(-xtext+xmin-0.4, dprocs[key][1]-0.35, "#bf{#mu_{%s} = %.2f ^{+%.2f}_{%.2f}}" % (process, dprocs[key][0][0], abs(dprocs[key][0][2]), dprocs[key][0][1]))
-    tex3.DrawLatex(-xtext+xmin-0.50, dprocs[key][1]-0.38, "#bf{#mu_{%s} = %.2f +%.2f %.2f}" % (process, dprocs[key][0][0], abs(dprocs[key][0][2]), dprocs[key][0][1]))
+    if is_decay :
+        tex3.DrawLatex(-xtext+xmin-0.50, dprocs[key][1]-0.18, "#bf{#mu_{%s} = %.2f +%.2f %.2f}" % (process, dprocs[key][0][0], abs(dprocs[key][0][2]), dprocs[key][0][1]))
+    else :
+        tex3.DrawLatex(-xtext+xmin-0.50, dprocs[key][1]-0.38, "#bf{#mu_{%s} = %.2f +%.2f %.2f}" % (process, dprocs[key][0][0], abs(dprocs[key][0][2]), dprocs[key][0][1]))
 
 if draw_stats_only :
     mu_comb_m1s_syst = sqrt(mu_comb_m1s*mu_comb_m1s-mu_comb_m1s_stat*mu_comb_m1s_stat)
@@ -308,6 +349,9 @@ else :
 """labels = addLabel_CMS_preliminary()
 for ll in labels :
     ll.Draw()"""
+
+if options.is_decay :
+    process = process + "_decay"
 
 savefile = os.path.join(input_folder, "test_mu_%s_%s.pdf" % (process, erastring))
 c.SaveAs(savefile)
