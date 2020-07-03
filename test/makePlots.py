@@ -4,6 +4,7 @@ import os, sys, time,math
 import ROOT
 from optparse import OptionParser
 from collections import OrderedDict
+import numpy as np
 
 sys.stdout.flush()
 sys.stdout.flush()
@@ -187,6 +188,7 @@ else : name_total = "TotalProcs"
 
 execfile("python/data_manager_makePostFitPlots.py")
 ROOT.gStyle.SetOptStat(0)
+#ROOT.gStyle.SetErrorX(0.001)
 ###ROOT.gROOT.SetBatch(0) ---> it still does not solve in batch if 1, and break in iterative if 0
 
 flips       = "data_flips"
@@ -365,7 +367,7 @@ if options.unblind :
             nbinscatlist[cc]
             )
     dataTGraph1.Draw()
-    legend1.AddEntry(dataTGraph1, "Data", "p")
+    legend1.AddEntry(dataTGraph1, "Data", "e0x0pz")
 hist_total = template.Clone()
 
 lastbin = 0
@@ -749,7 +751,10 @@ if HH :
     dumb = histHH3.Draw("hist,same")
     del dumb
 if options.unblind :
-    dumb = dataTGraph1.Draw("e1P,same")
+    for ipoint in range(dataTGraph1.GetN()):
+        dataTGraph1.SetPointEXlow(ipoint,0.00001)
+        dataTGraph1.SetPointEXhigh(ipoint,0.00001)
+    dumb = dataTGraph1.Draw("E1PZ,same") #e1PZ
     del dumb
 dumb = hist_total.Draw("axis,same")
 del dumb
@@ -835,7 +840,10 @@ if do_bottom :
                 hist_total,
                 readFrom,
                 fin[0])
-        dumb = dataTGraph2.Draw("e1P,same")
+        for ipoint in range(dataTGraph2.GetN()):
+            dataTGraph2.SetPointEXlow(ipoint,0.00001)
+            dataTGraph2.SetPointEXhigh(ipoint,0.00001)
+        dumb = dataTGraph2.Draw("E1PZ,same")
         del dumb
     line = ROOT.TF1("line", "0", hist_total_err.GetXaxis().GetXmin(), hist_total_err.GetXaxis().GetXmax())
     line.SetLineStyle(3)
