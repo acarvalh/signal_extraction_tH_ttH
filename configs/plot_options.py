@@ -36,7 +36,7 @@ def options_plot (analysis, channel, all_procs, leading_minor_H_local, leading_m
         if "WZ" in all_procs        : dprocs["WZ"]        = {"color" : 6, "fillStype" : 1001, "label" : "WZ"          , "make border" : True}
         if "TTWW" in all_procs :
             dprocs["TTW"]                                 = {"color" : 823, "fillStype" : 1001, "label" : "none"        , "make border" : False}
-            dprocs["TTWW"]                                = {"color" : 823, "fillStype" : 1001, "label" : "t#bar{t}(W)"  , "make border" : True}
+            dprocs["TTWW"]                                = {"color" : 823, "fillStype" : 1001, "label" : "t#bar{t}W(W)"  , "make border" : True}
         elif "TTW" in all_procs :
             dprocs["TTW"]                                 = {"color" : 823, "fillStype" : 1001, "label" : "t#bar{t}W(W)"        , "make border" : True}
         if "TTZ" in all_procs       : dprocs["TTZ"]       = {"color" : 822, "fillStype" : 1001, "label" : "t#bar{t}Z"         , "make border" : True}
@@ -139,14 +139,14 @@ def options_plot_ranges (analysis) :
         info_channel = {
             "2lss_0tau_rest" : {
                 "minY" : 0,   "maxY" :  95.,
-                "minYerr": -0.59, "maxYerr" : 0.69,
+                "minYerr": -0.51, "maxYerr" : 0.51,
                 "useLogPlot" : False,
-                "label" : "2l ss + 0#tau_{h}, Other BKG node",
+                "label" : "2l ss + 0#tau_{h}, Other bkg. node",
                 "labelX" : "Bin number",
                 "position_cats": 55. ,
                 "list_cats" : ["ttH_2lss_0tau_mm_Restnode_2018", "ttH_2lss_0tau_em_Restnode_2018", "ttH_2lss_0tau_ee_Restnode_2018"],
                 "list_cats_original" : ["ttH_2lss_0tau_mm_Restnode_2018", "ttH_2lss_0tau_em_Restnode_2018", "ttH_2lss_0tau_ee_Restnode_2018"],
-                "cats" : [['#mu#mu'], ['e#mu'], ['ee']],
+                "cats" : [['#mu#mu'], ['#bf{e}#mu'], ['#bf{e}#bf{e}']],
                 "catsX" :  [ 4.25, 13.5, 21.75 ]
                 },
             "2lss_0tau_ttW" : {
@@ -158,31 +158,31 @@ def options_plot_ranges (analysis) :
                 "position_cats": 23.0 ,
                 "list_cats" : [ "ttH_2lss_0tau_mm_ttWnode_2018", "ttH_2lss_0tau_em_ttWnode_2018", "ttH_2lss_0tau_ee_ttWnode_2018"],
                 "list_cats_original" : ["ttH_2lss_0tau_mm_ttWnode_2018", "ttH_2lss_0tau_em_ttWnode_2018", "ttH_2lss_0tau_ee_ttWnode_2018"],
-                "cats" : [['#mu#mu'], ['e#mu'], ['ee']],
+                "cats" : [['#mu#mu'], ['#bf{e}#mu'], ['#bf{e}#bf{e}']],
                 "catsX" :  [ 6.0, 23.0, 35.5 ]
                 },
             "2lss_0tau_ttH" : {
                 "minY" : 0,   "maxY" :  35.,
-                "minYerr": -0.55, "maxYerr" : 1.51,
+                "minYerr": -1.05, "maxYerr" : 1.05,
                 "useLogPlot" : False,
                 "label" : '2l ss + 0#tau_{h}, t#bar{t}H node',
                 "labelX" : "Bin number",
                 "position_cats": 20.3 ,
                 "list_cats" : ["ttH_2lss_0tau_mm_ttHnode_2018", "ttH_2lss_0tau_em_ttHnode_2018", "ttH_2lss_0tau_ee_ttHnode_2018"],
                 "list_cats_original" : ["ttH_2lss_0tau_mm_ttHnode_2018", "ttH_2lss_0tau_em_ttHnode_2018", "ttH_2lss_0tau_ee_ttHnode_2018"],
-                "cats" : [['#mu#mu'], ['e#mu'], ['ee']],
+                "cats" : [['#mu#mu'], ['#bf{e}#mu'], ['#bf{e}#bf{e}']],
                 "catsX" :  [ 5.0, 18.0, 27.1 ]
                 },
             "2lss_0tau_tH" : {
                 "minY" : 0,   "maxY" :  75.,
-                "minYerr": -0.55, "maxYerr" : 0.685,
+                "minYerr": -0.51, "maxYerr" : 0.51,
                 "useLogPlot" : False,
                 "label" : '2l ss + 0#tau_{h}, tHq node',
                 "labelX" : "Bin number",
                 "position_cats": 42. ,
                 "list_cats" : ["ttH_2lss_0tau_mm_tHQnode_2018", "ttH_2lss_0tau_em_tHQnode_2018", "ttH_2lss_0tau_ee_tHQnode_2018"],
                 "list_cats_original" : ["ttH_2lss_0tau_mm_tHQnode_2018", "ttH_2lss_0tau_em_tHQnode_2018", "ttH_2lss_0tau_ee_tHQnode_2018"],
-                "cats" : [['#mu#mu'], ['e#mu'], ['ee']],
+                "cats" : [['#mu#mu'], ['#bf{e}#mu'], ['#bf{e}#bf{e}']],
                 "catsX" :  [ 2.2, 11.5, 18.8 ]
                 },
             "2lss_1tau_plain" : {
@@ -211,7 +211,7 @@ def options_plot_ranges (analysis) :
                 },
             "2lss_1tau" : {
                 "minY" : 0,  "maxY" :  40.0,
-                "minYerr":  -1.1,  "maxYerr" : 1.6,
+                "minYerr":  -1.05,  "maxYerr" : 1.05,
                 "useLogPlot" : False,
                 "label" : '2l ss + 1#tau_{h}',
                 "labelX" : "Bin number",
@@ -219,9 +219,9 @@ def options_plot_ranges (analysis) :
                 "list_cats" : ["ttH_2lss_1tau_rest_2018", "ttH_2lss_1tau_tH_2018", "ttH_2lss_1tau_ttH_2018"],
                 "list_cats_original" : ["ttH_2lss_1tau_rest_2018", "ttH_2lss_1tau_tH_2018", "ttH_2lss_1tau_ttH_2018"],
                 "cats" :  [
-                ["'Other'", " node"],
-                [' tHQ', 'node'],
-                [' ttH', 'node'] ],
+                [" #bf{Bkg.}", " #bf{node}"],
+                [' #bf{tHq}', '#bf{node}'],
+                [' #bf{t#bar{t}H}', '#bf{node}'] ],
                 "catsX" :  [
                 0.8,
                 5.6,
@@ -252,33 +252,33 @@ def options_plot_ranges (analysis) :
                 },
             "3l_0tau_ttH" : {
                 "minY" : 0,    "maxY" :  55.,
-                "minYerr":  -0.47,  "maxYerr" : 0.69,
+                "minYerr":  -0.51,  "maxYerr" : 0.51,
                 "useLogPlot" : False,
                 "label" : '3l + 0#tau_{h}, t#bar{t}H node',
                 "labelX" : "Bin number",
                 "position_cats": 32.5 ,
                 "list_cats" : ["ttH_3l_0tau_ttH_bl_2018", "ttH_3l_0tau_ttH_bt_2018"],
                 "list_cats_original" : ["ttH_3l_0tau_ttH_bl_2018", "ttH_3l_0tau_ttH_bt_2018"],
-                "cats" : [["bl"], ["bt"]],
+                "cats" : [["#bf{bl}"], ["#bf{bt}"]],
                 "catsX" :  [ 1.2, 6.0 ]
                 },
             "3l_0tau_tH" : {
                 "minY" : 0,    "maxY" :  30.,
-                "minYerr":  -0.35,  "maxYerr" : 0.95,
+                "minYerr":  -1.05,  "maxYerr" : 1.05,
                 "useLogPlot" : False,
                 "label" : '3l + 0#tau_{h}, tHq node',
                 "labelX" : "Bin number",
                 "position_cats": 18. ,
                 "list_cats" : ["ttH_3l_0tau_tH_bl_2018", "ttH_3l_0tau_tH_bt_2018"],
                 "list_cats_original" : ["ttH_3l_0tau_tH_bl_2018", "ttH_3l_0tau_tH_bt_2018"],
-                "cats" : [["bl"], ["bt"]],
+                "cats" : [["#bf{bl}"], ["#bf{bt}"]],
                 "catsX" :  [ 2.5, 7.5 ]
                 },
             "3l_0tau_rest" : {
                 "minY" : 0,    "maxY" :  45.,
-                "minYerr":  -1.1,  "maxYerr" : 1.84,
+                "minYerr":  -1.05,  "maxYerr" : 1.05,
                 "useLogPlot" : False,
-                "label" : '3l + 0#tau_{h}, Other BKG node',
+                "label" : '3l + 0#tau_{h}, Bkg. node',
                 "labelX" : "Bin number",
                 "position_cats": 26. ,
                 "list_cats" : [
@@ -300,31 +300,31 @@ def options_plot_ranges (analysis) :
                     "ttH_3l_0tau_rest_eem_bt_2018",
                      ],
                 "cats" : [
-                ["e", "e", "e"],
-                ["ee#mu", " bl"],
-                ["e#mu#mu", " bl"],
-                ["#mu#mu#mu", " bl"],
-                ["e", "e", "m", "bt"],
-                ["e",'#mu', '#mu', "bt"],
-                ["#mu","#mu","#mu", "bt"],
+                ["#bf{e}", "#bf{e}", "#bf{e}"],
+                ["#bf{e}#bf{e}#mu", " #bf{bl}"],
+                ["#bf{e}#mu#mu", " #bf{bl}"],
+                ["#mu#mu#mu", " #bf{bl}"],
+                ["#bf{e}", "#bf{e}", "#mu", "#bf{bt}"],
+                ["#bf{e}",'#mu', '#mu', "#bf{bt}"],
+                ["#mu","#mu","#mu", "#bf{bt}"],
                 ],
                 "catsX" :  [ -0.1, 1.8, 5.8, 9.4, 11.6, 12.6, 13.6]
                 },
             "3lctrl" : {
                 "minY" : 0.1,    "maxY" :  100000.,
-                "minYerr": -0.86, "maxYerr" : 2.2,
+                "minYerr": -1.05, "maxYerr" : 1.05,
                 "useLogPlot" : True,
                 "label" : '3l-CR',
                 "labelX" : "Bin number",
                 "position_cats": 300. ,
                 "list_cats" : ["ttH_cr_3l_2018_eee_cr", "ttH_cr_3l_2018_eem_cr", "ttH_cr_3l_2018_emm_cr", "ttH_cr_3l_2018_mmm_cr"],
                 "list_cats_original" : ["ttH_cr_3l_2018_eee_cr", "ttH_cr_3l_2018_eem_cr", "ttH_cr_3l_2018_emm_cr", "ttH_cr_3l_2018_mmm_cr"],
-                "cats" : [ ['eee'], ['ee#mu'], ['e#mu#mu'], ['#mu#mu#mu']],
+                "cats" : [ ['#bf{e}#bf{e}#bf{e}'], ['#bf{e}#bf{e}#mu'], ['#bf{e}#mu#mu'], ['#mu#mu#mu']],
                 "catsX" :  [ 3.5, 14.5, 27.3, 39.0]
                 },
             "4lctrl" : {
                 "minY" : 0.1,    "maxY" :  100000.,
-                "minYerr": -0.48, "maxYerr" : 0.55,
+                "minYerr": -0.51, "maxYerr" : 0.51,
                 "useLogPlot" : True,
                 "label" : '4l-CR',
                 "labelX" : "Bin number",
@@ -410,7 +410,7 @@ def options_plot_ranges (analysis) :
             "2l_2tau"   : {
                 "minY" : 0.0,
                 "maxY" :  6.5,
-                "minYerr":  -1.1,  "maxYerr" : 1.4,
+                "minYerr":  -1.05,  "maxYerr" : 1.05,
                 "useLogPlot" : False,
                 "label" : '2l + 2#tau_{h}',
                 "position_cats": 300. ,
@@ -422,7 +422,7 @@ def options_plot_ranges (analysis) :
                 },
             "3l_1tau"   : {
                 "minY" : 0.,  "maxY" :  8.0,
-                "minYerr":  -1.1,  "maxYerr" : 1.84,
+                "minYerr":  -1.05,  "maxYerr" : 1.05,
                 "useLogPlot" : False,
                 "label" : '3l + 1#tau_{h}',
                 "labelX" : "Bin number",
@@ -434,7 +434,7 @@ def options_plot_ranges (analysis) :
                 },
             "1l_2tau"   : {
                 "minY" : 0,  "maxY" :  55.,
-                "minYerr":  -0.59,  "maxYerr" : 0.59,
+                "minYerr":  -0.51,  "maxYerr" : 0.51,
                 "useLogPlot" : False,
                 "label" : '1l + 2#tau_{h}',
                 "position_cats": 300. ,
@@ -458,7 +458,7 @@ def options_plot_ranges (analysis) :
                 },
             "2los_1tau" : {
                 "minY" : 0,  "maxY" :  94.,
-                "minYerr":  -0.55,  "maxYerr" : 1.51,
+                "minYerr":  -0.51,  "maxYerr" : 0.51,
                 "useLogPlot" : False,
                 "label" : '2l os + 1#tau_{h}',
                 "position_cats": 300. ,
@@ -470,7 +470,7 @@ def options_plot_ranges (analysis) :
                 },
             "0l_2tau"   : {
                 "minY" : 0.1,  "maxY" :  1500000.,
-                "minYerr": -0.3,  "maxYerr" : 0.3,
+                "minYerr": -0.51,  "maxYerr" : 0.51,
                 "useLogPlot" : True,
                 "label" : '0l + 2#tau_{h}',
                 "labelX" : "BDT output",
@@ -482,7 +482,7 @@ def options_plot_ranges (analysis) :
                 },
             "1l_1tau"   : {
                 "minY" : 10,  "maxY" :  400000.,
-                "minYerr":  -0.105,  "maxYerr" : 0.105,
+                "minYerr":  -0.51,  "maxYerr" : 0.51,
                 "useLogPlot" : True,
                 "label" : '1l + 1#tau_{h}',
                 "position_cats": 300. ,
@@ -495,7 +495,7 @@ def options_plot_ranges (analysis) :
             "4l_0tau"   : {
                 "minY" : 0.,
                 "maxY" :  9.5,
-                "minYerr":  -1.14,  "maxYerr" : 2.99,
+                "minYerr":  -1.05,  "maxYerr" : 1.05,
                 "useLogPlot" : False,
                 "label" : '4l + 0#tau_{h}',
                 "position_cats": 300. ,

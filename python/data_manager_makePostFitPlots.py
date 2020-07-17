@@ -322,10 +322,10 @@ def err_data(dataTGraph1, template, dataTGraph, fromHavester, histtotal, folder,
 def do_hist_total_err(hist_total_err, labelX, total_hist, minBottom, maxBottom, era) :
     allbins = total_hist.GetNbinsX() #GetNonZeroBins(total_hist)
     hist_total_err.GetYaxis().SetTitle("#frac{Data - Expectation}{Expectation}")
-    hist_total_err.GetXaxis().SetTitleOffset(1.25)
-    hist_total_err.GetYaxis().SetTitleOffset(1.2)
+    hist_total_err.GetXaxis().SetTitleOffset(1.2)
+    hist_total_err.GetYaxis().SetTitleOffset(0.95)
     hist_total_err.GetXaxis().SetTitleSize(0.14)
-    hist_total_err.GetYaxis().SetTitleSize(0.075)
+    hist_total_err.GetYaxis().SetTitleSize(0.09)
     hist_total_err.GetYaxis().SetLabelSize(0.105)
     hist_total_err.GetXaxis().SetLabelSize(0.10)
     hist_total_err.GetYaxis().SetTickLength(0.04)
@@ -349,7 +349,7 @@ def addLabel_CMS_preliminary(era) :
     x0 = 0.2
     y0 = 0.953
     ypreliminary = 0.95
-    xlumi = 0.67
+    xlumi = 0.69
     label_cms = ROOT.TPaveText(x0, y0, x0 + 0.0950, y0 + 0.0600, "NDC")
     label_cms.AddText("CMS")
     label_cms.SetTextFont(61)
