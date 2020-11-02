@@ -86,18 +86,20 @@ def rebin_total(hist, folder, fin, divideByBinWidth, name_total, lastbin, do_bot
     if not hist.GetSumw2N() : hist.Sumw2()
     if not do_bottom :
         hist.GetXaxis().SetTitle(labelX)
-        hist.GetXaxis().SetTitleOffset(1.2)
+        hist.GetXaxis().SetTitleOffset(0.9)
         hist.GetXaxis().SetTitleSize(0.05)
         hist.GetXaxis().SetLabelSize(0.05)
         hist.GetXaxis().SetLabelColor(1)
     else :
         hist.GetXaxis().SetLabelColor(10)
-        hist.GetXaxis().SetTitleOffset(0.7)
+        hist.GetXaxis().SetTitleOffset(0.4)
         hist.GetXaxis().SetTickLength(0.04)
         hist.GetYaxis().SetTitleOffset(1.2)
     hist.GetYaxis().SetTitleSize(0.055)
     hist.GetYaxis().SetTickLength(0.04)
     hist.GetYaxis().SetLabelSize(0.050)
+    #hist.GetXaxis().SetNdivisions(hist.GetNbinsX()) #HERE hist.GetNbinsX()
+    #hist.GetXaxis().SetNdivisions(208) #HERE hist.GetNbinsX()
     return allbins
 
 def rebin_hist(hist_rebin_local, fin, folder, name, itemDict, divideByBinWidth, addlegend, lastbin, catbin, original, firstHisto) :
@@ -260,9 +262,9 @@ def rebin_data(template, dataTGraph1, folder, fin, fromHavester, lastbin, histto
         dataTGraph.Reset()
     dataTGraph1.SetMarkerColor(1)
     dataTGraph1.SetMarkerStyle(20)
-    dataTGraph1.SetMarkerSize(0.8)
+    dataTGraph1.SetMarkerSize(1.0)
     dataTGraph1.SetLineColor(1)
-    dataTGraph1.SetLineWidth(1)
+    dataTGraph1.SetLineWidth(2)
     dataTGraph1.SetLineStyle(1)
     dataTGraph1.SetMinimum(minY)
     dataTGraph1.SetMaximum(maxY)
@@ -313,16 +315,16 @@ def err_data(dataTGraph1, template, dataTGraph, fromHavester, histtotal, folder,
         if not dataTGraph1.GetSumw2N() : dataTGraph1.Sumw2()
     dataTGraph1.SetMarkerColor(1)
     dataTGraph1.SetMarkerStyle(20)
-    dataTGraph1.SetMarkerSize(0.8)
+    dataTGraph1.SetMarkerSize(1.0)
     dataTGraph1.SetLineColor(1)
-    dataTGraph1.SetLineWidth(1)
+    dataTGraph1.SetLineWidth(2)
     dataTGraph1.SetLineStyle(1)
     return allbins
 
 def do_hist_total_err(hist_total_err, labelX, total_hist, minBottom, maxBottom, era) :
     allbins = total_hist.GetNbinsX() #GetNonZeroBins(total_hist)
     hist_total_err.GetYaxis().SetTitle("#frac{Data - Expectation}{Expectation}")
-    hist_total_err.GetXaxis().SetTitleOffset(1.2)
+    hist_total_err.GetXaxis().SetTitleOffset(0.9)
     hist_total_err.GetYaxis().SetTitleOffset(0.95)
     hist_total_err.GetXaxis().SetTitleSize(0.14)
     hist_total_err.GetYaxis().SetTitleSize(0.09)
@@ -331,6 +333,8 @@ def do_hist_total_err(hist_total_err, labelX, total_hist, minBottom, maxBottom, 
     hist_total_err.GetYaxis().SetTickLength(0.04)
     hist_total_err.GetXaxis().SetLabelColor(1)
     hist_total_err.GetXaxis().SetTitle(labelX)
+    #hist_total_err.GetXaxis().SetNdivisions(hist_total_err.GetNbinsX()) #HERE hist_total_err.GetNbinsX()
+    #hist_total_err.GetXaxis().SetNdivisions(208) #2lss1tau, 3l bkg
     hist_total_err.SetMarkerSize(0)
     hist_total_err.SetFillColorAlpha(12, 0.40)
     hist_total_err.SetLineWidth(0)

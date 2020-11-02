@@ -188,6 +188,8 @@ else : name_total = "TotalProcs"
 
 execfile("python/data_manager_makePostFitPlots.py")
 ROOT.gStyle.SetOptStat(0)
+#ROOT.gPad.SetTicky(1)
+#ROOT.gStyle.SetPadTicksy()
 #ROOT.gStyle.SetErrorX(0.001)
 ###ROOT.gROOT.SetBatch(0) ---> it still does not solve in batch if 1, and break in iterative if 0
 
@@ -223,7 +225,7 @@ if not options.nameLabel == "none" :
 if typeFit == "prefit" :
     label_head = label_head+", \n"+typeFit
 else :
-    label_head = label_head+", #mu(t#bar{t}H)=#hat{#mu}"
+    label_head = label_head+", #bf{#mu}(t#bar{t}H)=#hat{#bf{#mu}}"
 
 if not options.labelX == "none" :
     labelX = options.labelX
@@ -332,11 +334,12 @@ legend1.SetNColumns(3)
 legend1.SetFillStyle(0)
 legend1.SetBorderSize(0)
 legend1.SetFillColor(10)
-legend1.SetTextSize(0.040)
+legend1.SetTextSize(0.038)
 print label_head
 legend1.SetHeader(label_head)
 header = legend1.GetListOfPrimitives().First()
-header.SetTextSize(.05)
+header.SetTextSize(.047)
+#header.SetTextSize(.05)
 header.SetTextColor(1)
 header.SetTextFont(62)
 
@@ -396,12 +399,16 @@ else :
     canvas = ROOT.TCanvas("canvas", "canvas", 900, 900)
 canvas.SetFillColor(10)
 canvas.SetBorderSize(2)
-dumb = canvas.Draw()
+canvas.SetTicky(1)
+dumb = canvas.Draw("Y+")
 del dumb
+
+ROOT.gStyle.SetPadTickY(1)
 
 if do_bottom :
     topPad = ROOT.TPad("topPad", "topPad", 0.00, 0.34, 1.00, 0.995)
     topPad.SetFillColor(10)
+    #topPad.SetPadTickY(1)
     topPad.SetTopMargin(0.075)
     topPad.SetLeftMargin(0.20)
     topPad.SetBottomMargin(0.053)
@@ -411,6 +418,7 @@ if do_bottom :
 
     bottomPad = ROOT.TPad("bottomPad", "bottomPad", 0.00, 0.05, 1.00, 0.34)
     bottomPad.SetFillColor(10)
+    #bottomPad.SetPadTickY(1)
     bottomPad.SetTopMargin(0.036)
     bottomPad.SetLeftMargin(0.20)
     bottomPad.SetBottomMargin(0.35)
@@ -792,7 +800,7 @@ for cc, cat in enumerate(options_plot_ranges("ttH")[typeCat]["cats"]) :
         else :
             sumBottom += -2.4
 
-legend1.AddEntry(hist_total, "Uncertainty", "f")
+legend1.AddEntry(hist_total, "Total unc.", "f")
 
 #################################
 if do_bottom :
